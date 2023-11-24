@@ -1,0 +1,18 @@
+<!--
+Non c'è bisogno di riscrivere il nodo e gli edges perchè il file network è già il merge dei due file che si fa attraverso il comando:
+netconvert ##node-files=node.xml ##edge-files=edges.xml ##output-file=network.xml
+(Al posto degli # va il trattino ma nei commenti xml il trattino non è permesso)
+-->
+
+<configuration>
+	<input>
+		<net-file value="network.xml" />
+		<route-files value="route.xml" />
+	</input>
+
+	<time>
+		<begin value="0" />
+		<end value="1000" />
+		<step-length value="0.1" />
+	</time>
+</configuration>

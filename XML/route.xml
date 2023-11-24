@@ -1,0 +1,13 @@
+<!--
+vType=Vehicle Type
+Sigma = L'esperienza del pilota, gli altri parametri sono intuitivi
+Poi si definisce la strada che deve essere percorsa da questo veicolo e gli edges
+Poi si definisce il veicolo:
+-Depart: sarebbe in quanto tempo il veicolo partirà una volta cominciata la simulazione (In questo caso 1 secondo dopo startato la simulazione)
+-Type: ci sono tanti tipi di veicoli (car, ambulance, bus, ecc..)
+-->
+<routes>
+	<vType id="car" length="5.0" accel="1.0" decel="5.0" sigma="0.0" maxSpeed="100.0" color="0,1,0" />
+		<route id="right2left-traffic" edges="1to2r outr" />
+		<vehicle depart="1" id="veh0" route="right2left-traffic" type="car" />
+</routes>
