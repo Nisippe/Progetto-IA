@@ -4,11 +4,11 @@ import sys
 from datetime import datetime
 
 
-if "SUMO_HOME" in os.environ:
+'''if "SUMO_HOME" in os.environ:
     tools = os.path.join(os.environ["SUMO_HOME"], "tools")
     sys.path.append(tools)
 else:
-    sys.exit("Please declare the environment variable 'SUMO_HOME'")
+    sys.exit("Please declare the environment variable 'SUMO_HOME'")'''
 
 from sumo_rl import SumoEnvironment
 from sumo_rl.agents import QLAgent
