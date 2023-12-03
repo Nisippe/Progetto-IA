@@ -61,31 +61,42 @@ def train_agents(env, ql_agents, episodes,run):
         env.save_csv(f"outputs/grid_run{run}", episode)
 
 
+def plot(runs,episodes):
+    for j in range(runs):
+        for i in range(episodes):
+            os.system('cmd /c "py "C:/Users/drugo/Desktop/PROGETTO-IA/Python/plot.py" -f "C:/Users/drugo/Desktop/PROGETTO-IA/outputs/grid_run{}_conn{}_ep{}.csv""'.format(j+1,j,i+1))
+
+
 # Main
 def main():
     # Parametri di apprendimento
-    alpha = 0.000000001  # Tasso di apprendimento
+    alpha = 0.8  # Tasso di apprendimento
     gamma = 0.95  # Fattore di sconto
     decay = 1  # Parametro di decadimento
     runs = 2  # Numero di iterazioni
-    episodes = 5  # Numero di episodi per iterazione
-    n=random.randint(200,500)
+    episodes = 2  # Numero di episodi per iterazione
+    
 
     # Inizializzazione dell'ambiente SUMO
-    env = initialize_sumo_environment(n)
+    
 
     # Loop sul numero di iterazioni
     for run in range(1, runs + 1):
-        
+        n=random.randint(200,500)
+        generate_route.generate_route_file(n)
+        env = initialize_sumo_environment(n)
         # Inizializzazione degli agenti Q-learning per l'ambiente SUMO
         ql_agents = initialize_q_learning_agents(env, alpha, gamma, decay)
         
         # Addestramento degli agenti Q-learning
         train_agents(env, ql_agents, episodes,run)
-
+    
     # Chiusura dell'ambiente SUMO alla fine dell'esecuzione
     env.close()
+    plot(runs,episodes)
+
+
 
 # Esecuzione della funzione main al lancio dello script
 if __name__ == "__main__":
-    main()
+  main()
