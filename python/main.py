@@ -16,11 +16,11 @@ def initialize_sumo_environment(n):
     return SumoEnvironment(
         net_file="C:/Users/drugo/Desktop/PROGETTO-IA/XML/TEST1.net.xml",
         route_file="C:/Users/drugo/Desktop/PROGETTO-IA/XML/trips.trips.xml",
-        use_gui=True,
-        num_seconds=n+100,  # Durata della simulazione in secondi
+        use_gui=False,
+        num_seconds=n+150,  # Durata della simulazione in secondi
         min_green=5,      # Durata minima del semaforo verde
         delta_time=5,     # Intervallo di tempo tra le iterazioni
-        additional_sumo_cmd= '--collision.stoptime 30',
+        additional_sumo_cmd= '--collision.stoptime 10',
     )
 
 # Funzione per inizializzare gli agenti Q-learning con parametri specifici
@@ -58,34 +58,46 @@ def train_agents(env, ql_agents, episodes,run):
                 ql_agents[agent_id].learn(next_state=env.encode(s[agent_id], agent_id), reward=r[agent_id])
 
         # Salvataggio dei dati in formato CSV alla fine di ogni episodio
-        env.save_csv(f"outputs/grid_run{run}", episode)
+        env.save_csv(f"outputs/Q-Learning/grid_run{run}", episode)
+
+
+def plot(runs,episodes):
+    for j in range(runs):
+        for i in range(episodes):
+            os.system('cmd /c "py "C:/Users/drugo/Desktop/PROGETTO-IA/Python/plot.py" -f "C:/Users/drugo/Desktop/PROGETTO-IA/outputs/Q-Learning/grid_run{}_conn{}_ep{}.csv""'.format(j+1,j,i+1))
 
 
 # Main
 def main():
     # Parametri di apprendimento
-    alpha = 0.000000001  # Tasso di apprendimento
-    gamma = 0.95  # Fattore di sconto
+    alpha = 0.5 # Tasso di apprendimento
+    gamma = 0.99  # Fattore di sconto
     decay = 1  # Parametro di decadimento
-    runs = 2  # Numero di iterazioni
-    episodes = 5  # Numero di episodi per iterazione
-    n=random.randint(200,500)
+    runs = 3 # Numero di iterazioni
+    episodes = 10  # Numero di episodi per iterazione
+    
 
     # Inizializzazione dell'ambiente SUMO
-    env = initialize_sumo_environment(n)
+    
 
     # Loop sul numero di iterazioni
     for run in range(1, runs + 1):
-        
+        n=100*run
+        generate_route.generate_route_file(n)
+        env = initialize_sumo_environment(n)
         # Inizializzazione degli agenti Q-learning per l'ambiente SUMO
         ql_agents = initialize_q_learning_agents(env, alpha, gamma, decay)
         
         # Addestramento degli agenti Q-learning
         train_agents(env, ql_agents, episodes,run)
-
+        print('Finito run '+str(run))
     # Chiusura dell'ambiente SUMO alla fine dell'esecuzione
     env.close()
+    torch.save(ql_agents,r"C:\Users\drugo\Desktop\PROGETTO-IA\models\Q-Learning_Model.pth")
+    plot(runs,episodes)
+
+
 
 # Esecuzione della funzione main al lancio dello script
 if __name__ == "__main__":
-    main()
+  main()

@@ -302,10 +302,11 @@ class SumoEnvironment(gym.Env):
             action (Union[dict, int]): action(s) to be applied to the environment.
             If single_agent is True, action is an int, otherwise it expects a dict with keys corresponding to traffic signal ids.
         """
-        for vehicle in traci.vehicle.getIDList():
-            n=traci.vehicle.setTau(vehicle,0.001)
+        if len(traci.vehicle.getIDList()) > 0:
+            for vehicle in traci.vehicle.getIDList():
+                n=traci.vehicle.setTau(vehicle,0.99)
   
-        print(traci.simulation.getCollidingVehiclesNumber())
+        #print(traci.simulation.getCollidingVehiclesNumber())
 
         # No action, follow fixed TL defined in self.phases
         if action is None or action == {}:
