@@ -1,6 +1,5 @@
 import os
 import sys
-import fire
 import traci
 import random
 import torch
@@ -23,9 +22,7 @@ def initialize_sumo_environment(n):
         num_seconds=n+150,  # Durata della simulazione in secondi
         min_green=5,      # Durata minima del semaforo verde
         delta_time=5,     # Intervallo di tempo tra le iterazioni
-        #max_green=60,
-        #yellow_time=3,
-        additional_sumo_cmd= '--collision.stoptime 10',
+        additional_sumo_cmd= '--collision.stoptime 10', #Tempo che passa prima che un veicolo incidentato venga spostato
     )
 
 

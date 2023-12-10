@@ -20,7 +20,7 @@ def initialize_sumo_environment(n):
         num_seconds=n+150,  # Durata della simulazione in secondi
         min_green=5,      # Durata minima del semaforo verde
         delta_time=5,     # Intervallo di tempo tra le iterazioni
-        additional_sumo_cmd= '--collision.stoptime 10',
+        additional_sumo_cmd= '--collision.stoptime 10', #Tempo che passa prima che un veicolo incidentato venga spostato
     )
 
 # Funzione per inizializzare gli agenti Q-learning con parametri specifici
@@ -61,7 +61,7 @@ def train_agents(env, ql_agents, episodes,run):
         env.save_csv(f"outputs/Q-Learning/grid_run{run}", episode)
 
 
-def plot(runs,episodes):
+def plot(runs,episodes): #Creazione file di output 
     for j in range(runs):
         for i in range(episodes):
             os.system('cmd /c "py "C:/Users/drugo/Desktop/PROGETTO-IA/Python/plot.py" -f "C:/Users/drugo/Desktop/PROGETTO-IA/outputs/Q-Learning/grid_run{}_conn{}_ep{}.csv""'.format(j+1,j,i+1))
